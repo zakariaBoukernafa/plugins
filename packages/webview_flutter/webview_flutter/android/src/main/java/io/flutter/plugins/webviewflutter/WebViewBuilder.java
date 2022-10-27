@@ -11,6 +11,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import android.webkit.DownloadListener;
+import androidx.webkit.WebViewFeature;
+import androidx.webkit.WebSettingsCompat;
 
 /** Builder used to create {@link android.webkit.WebView} objects. */
 public class WebViewBuilder {
@@ -129,7 +132,10 @@ public class WebViewBuilder {
    */
   public WebView build() {
     WebView webView = WebViewFactory.create(context, usesHybridComposition, containerView);
-
+    
+    if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+      WebSettingsCompat.setForceDark(webView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+    }
     WebSettings webSettings = webView.getSettings();
     webSettings.setDomStorageEnabled(enableDomStorage);
     webSettings.setJavaScriptCanOpenWindowsAutomatically(javaScriptCanOpenWindowsAutomatically);
